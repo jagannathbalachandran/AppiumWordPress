@@ -14,6 +14,7 @@ import util.AppiumServer;
 import util.PropertyReader;
 
 import java.io.IOException;
+import java.net.URL;
 
 
 public class BaseTest {
@@ -24,12 +25,12 @@ public class BaseTest {
     String device = "Nexus 5";
     AppiumServer server;
 
-    @BeforeSuite
-    public void setUpServer(){
-        server = new AppiumServer();
-        server.startAppiumServer();
-        System.out.println("Server after start up is " + server);
-    }
+//    @BeforeSuite
+//    public void setUpServer(){
+//        server = new AppiumServer();
+//        server.startAppiumServer();
+//        System.out.println("Server after start up is " + server);
+//    }
 
     public void setUpAndroidDriver() throws Exception {
 
@@ -42,7 +43,7 @@ public class BaseTest {
 //        capabilities.setCapability("device", "Selendroid");
         capabilities.setCapability(MobileCapabilityType.APP, System.getProperty("user.dir") + "/build/wordpress.apk");
 //        System.out.println("Server here in set up  " + server);
-        driver = new AndroidDriver<MobileElement>(server.getUrl(), capabilities);
+        driver = new AndroidDriver<MobileElement>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
         String explicitWait = propertyReader.readProperty("explicitWait");
         wait = new WebDriverWait(driver, Long.parseLong(explicitWait));
     }
@@ -60,10 +61,10 @@ public class BaseTest {
         System.out.println("Close Android driver");
     }
 
-    @AfterSuite
-    public void stopAppiumServer(){
-        server.stopAppiumServer();
-    }
+//    @AfterSuite
+//    public void stopAppiumServer(){
+//        server.stopAppiumServer();
+//    }
 
 
     public AppiumDriver<MobileElement> getDriver() {
